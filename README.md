@@ -22,12 +22,15 @@ to read the given input.
 What you will see using this module.
 
 Given: 200 words
+
 Expect: **1 minute**
 
 Given: 300 words
+
 Expect: **1 minute 30 seconds**
 
 Given: 776 words
+
 Expect: **3 minutes 52 seconds**
 
 License
