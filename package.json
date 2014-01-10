@@ -1,0 +1,28 @@
+{
+  "name": "read-time",
+  "version": "0.1.0",
+  "description": "Calculate how long it will take you to read some text.",
+  "license": "MIT",
+  "author": {
+    "name": "Harry Wolff",
+    "email": "hello@hswolff.com",
+    "url": "http://hswolff.com"
+  },
+  "repository": "git://github.com/hswolff/read-time",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha --reporter list"
+  },
+  "keywords": [
+    "read time",
+    "read length",
+    "estimated time",
+    "read"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*"
+  }
+}
