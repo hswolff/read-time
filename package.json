@@ -1,6 +1,6 @@
 {
   "name": "read-time",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Calculate how long it will take you to read some text.",
   "license": "MIT",
   "author": {
