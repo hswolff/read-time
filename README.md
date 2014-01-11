@@ -33,6 +33,13 @@ Given: 776 words
 
 Expect: **3 minutes 52 seconds**
 
+Changelog
+=========
+
+### 1.0.0
+Initial release.
+
+
 License
 =======
 
