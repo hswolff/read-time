@@ -2,17 +2,25 @@
  * READ TIME!
  */
 
+// Shortcut to array's slice
+var slice = Array.prototype.slice;
+
 /**
- * Copy over properties from source onto
+ * Copy over properties from passed in object onto
  * target object.
  * @param  {Object} target
- * @param  {Object} source
+ * @param  {...} object Can take any number of source objects
+ *                      to copy properties from.
  * @return {Object}        Updated target object.
  */
-var extend = function(target, source) {
-  for (var key in source) {
-    target[key] = source[key];
-  }
+var extend = function(target) {
+  slice.call(arguments, 1).forEach(function(obj) {
+    if (obj) {
+      for (var key in obj) {
+        target[key] = obj[key];
+      }
+    }
+  });
   return target;
 };
 
@@ -26,7 +34,6 @@ var extend = function(target, source) {
 var pluralize = function(word, count) {
   return word + (count > 1 ? 's' : '');
 };
-
 
 /**
  * The options that readTime ships with.
@@ -47,32 +54,46 @@ var DEFAULT_OPTIONS = {
  */
 var CURRENT_OPTIONS = {};
 
-
+/**
+ * Calculates the reading time for a given input.
+ * @param  {string} input   String input.
+ * @param  {options} options Options to apply to
+ *                           our calculations for this
+ *                           invocation.
+ * @return {Object}         Object of readTime information.
+ */
 var readTime = function (input, options) {
 
   var runTimeOptions = {};
-  extend(runTimeOptions, DEFAULT_OPTIONS);
-  extend(runTimeOptions, options);
+  extend(runTimeOptions, CURRENT_OPTIONS, options);
 
+  // Strip input of characters that would skew the word count
   var wordCount = input.replace(/[-*\s\n]+/gm, ' ').split(/\s/).length;
 
+  // Calculate minutes
   var minutes = Math.floor(wordCount / runTimeOptions.WPM);
 
+  // Calculate seconds
   var seconds = Math.floor(wordCount % runTimeOptions.WPM / (runTimeOptions.WPM / 60));
 
-  var resp = '';
+  var text = '';
 
   if (minutes < 1) {
-    resp += runTimeOptions.lessThanAMinute;
+    text += runTimeOptions.lessThanAMinute;
   } else {
-    resp += minutes + ' ' + pluralize('minute', minutes);
+    text += minutes + ' ' + pluralize('minute', minutes);
 
     if (seconds > 0) {
-      resp += ' ' + seconds + ' ' + pluralize('second', seconds);
+      text += ' ' + seconds + ' ' + pluralize('second', seconds);
     }
   }
 
-  return resp;
+  return {
+    'text': text,
+    'words': wordCount,
+    'm': minutes,
+    's': seconds
+  };
 };
 
 /**
@@ -98,7 +119,7 @@ readTime.reset = function() {
   return readTime;
 };
 
-// Set DEFAULT_OPTIONS as the iniital defaults
-readTime.defaults(DEFAULT_OPTIONS);
+// Set readTime to their initial default settings
+readTime.reset();
 
 module.exports = readTime;
